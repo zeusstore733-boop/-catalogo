@@ -2,8 +2,13 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tu Camiseta CR — Catálogo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="theme-color" content="#0a0a0a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Tu Camiseta CR — Catálogo Oficial</title>
 
     <!-- Fancybox 5 CSS (Visor fluido de imágenes) -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css"/>
@@ -25,14 +30,23 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html, body {
+            width: 100%;
+            overflow-x: hidden;
+            background-color: var(--bg-principal);
+            color: var(--texto-blanco);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         body {
-            background-color: var(--bg-principal);
-            color: var(--texto-blanco);
             padding: 20px;
             line-height: 1.5;
+            -webkit-overflow-scrolling: touch;
         }
 
         /* --- HEADER Y LOGO --- */
@@ -55,6 +69,7 @@
 
         .logo-img {
             max-width: 180px;
+            width: 100%;
             height: auto;
             object-fit: contain;
             filter: drop-shadow(0 4px 12px rgba(220, 38, 38, 0.4));
@@ -62,9 +77,9 @@
 
         header p {
             color: var(--texto-gris);
-            font-size: 1.1rem;
+            font-size: 1rem;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
+            letter-spacing: 1.2px;
             font-weight: 500;
         }
 
@@ -88,6 +103,7 @@
             flex-direction: column;
             border: 1px solid var(--borde-color);
             position: relative;
+            will-change: transform;
         }
 
         .producto-card:hover {
@@ -110,6 +126,7 @@
             z-index: 10;
             box-shadow: 0 2px 8px rgba(0,0,0,0.5);
             letter-spacing: 0.8px;
+            pointer-events: none;
         }
 
         /* --- CONTENEDOR DE IMÁGENES Y TRANSICIONES --- */
@@ -138,8 +155,8 @@
             opacity: 0;
         }
 
-        /* Cambia a la imagen trasera al pasar el mouse en PC */
-        @media (hover: hover) {
+        /* Cambia a la imagen trasera solo al pasar el mouse en computadoras con puntero fino */
+        @media (hover: hover) and (pointer: fine) {
             .producto-card:hover .imagen-wrapper img.adelante {
                 opacity: 0;
             }
@@ -157,7 +174,7 @@
         }
 
         .titulo-producto {
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             margin-bottom: 8px;
             color: var(--texto-blanco);
             font-weight: 600;
@@ -168,6 +185,10 @@
             font-size: 0.85rem;
             color: var(--texto-gris);
             margin-bottom: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 4px;
         }
 
         .tallas span {
@@ -175,37 +196,39 @@
             color: var(--texto-blanco);
             padding: 3px 8px;
             border-radius: 4px;
-            margin-right: 4px;
             font-weight: 600;
             border: 1px solid #3f3f46;
+            font-size: 0.8rem;
         }
 
         .btn-ordenar {
             background: linear-gradient(135deg, var(--rojo-primario) 0%, #b91c1c 100%);
             color: white;
             text-decoration: none;
-            padding: 10px 16px;
+            padding: 12px 16px;
             border-radius: 8px;
             font-weight: 700;
-            font-size: 0.88rem;
+            font-size: 0.9rem;
             transition: background 0.2s, transform 0.2s;
             box-shadow: 0 4px 10px rgba(220, 38, 38, 0.3);
             border: none;
             text-align: center;
             margin-top: auto;
+            display: block;
+            width: 100%;
         }
 
-        .btn-ordenar:hover {
-            background: var(--rojo-hover);
-            transform: scale(1.04);
+        .btn-ordenar:active {
+            transform: scale(0.98);
         }
 
         @media (max-width: 480px) {
-            body { padding: 10px; }
-            header { padding: 20px 10px; }
+            body { padding: 12px; }
+            header { padding: 18px 10px; margin-bottom: 20px; }
             .logo-img { max-width: 140px; }
-            .catalogo-container { grid-template-columns: 1fr; gap: 20px; }
-            .imagen-wrapper { height: 400px; }
+            .catalogo-container { grid-template-columns: 1fr; gap: 16px; }
+            .imagen-wrapper { height: 350px; }
+            header p { font-size: 0.85rem; }
         }
     </style>
 </head>
@@ -213,7 +236,7 @@
 
     <header>
         <div class="logo-container">
-            <img src="tucamisetacr logo.png" alt="Tu Camiseta CR Logo" class="logo-img">
+            <img src="tucamisetacr logo.png" alt="Tu Camiseta CR Logo" class="logo-img" onerror="this.style.display='none'">
         </div>
         <p>Catálogo — Presiona una camisa para ver frente y atrás</p>
     </header>
@@ -227,66 +250,66 @@
         // LISTADO OFICIAL DE PRODUCTOS Y SUS FOTOS
         const camisetas = [
             { id: "ac_milan", nombre: "AC Milan", frente: "ac milan adelante.jpg", atras: "ac milan atras.jpg", encargo: true, tallas: ["S", "M", "L", "XL"] },
-            { id: "alemania_azul", nombre: "Alemania Azul", frente: "alemania azul adelante.jpg", atras: "alemania azul atras.jpg", tallas: ["L",] },
-            { id: "alemania_blanca", nombre: "Alemania Blanca", frente: "alemania blanca adelante.jpg", atras: "alemania blanca atras.jpg", tallas: ["S", "M",] },
-            { id: "argentina_1994", nombre: "Argentina 1994 Retro", frente: "Argentina 1994 adelante.jpg", atras: "Argentina 1994 atras.jpg", tallas: [ "XL"] },
+            { id: "alemania_azul", nombre: "Alemania Azul", frente: "alemania azul adelante.jpg", atras: "alemania azul atras.jpg", tallas: ["L"] },
+            { id: "alemania_blanca", nombre: "Alemania Blanca", frente: "alemania blanca adelante.jpg", atras: "alemania blanca atras.jpg", tallas: ["S", "M"] },
+            { id: "argentina_1994", nombre: "Argentina 1994 Retro", frente: "Argentina 1994 adelante.jpg", atras: "Argentina 1994 atras.jpg", tallas: ["XL"] },
             { id: "argentina_local", nombre: "Argentina Local", frente: "argentina adelante.jpg", atras: "argentina atras.jpg", encargo: true, tallas: ["S", "M", "L", "XL"] },
-            { id: "argentina_visita", nombre: "Argentina Visitante", frente: "Argentina Visita Adelante.jpg", atras: "Argentina Visita Atras.jpg", tallas: ["S", "M", "L", "XL?"] },
+            { id: "argentina_visita", nombre: "Argentina Visitante", frente: "Argentina Visita Adelante.jpg", atras: "Argentina Visita Atras.jpg", tallas: ["S", "M", "L", "XL"] },
             { id: "arsenal_encargo", nombre: "Arsenal", frente: "arsenal solo por encargo.jpg", atras: "arsenal solo por encargo atras.jpg", encargo: true, tallas: ["S", "M", "L", "XL"] },
-            { id: "barcelona_retro", nombre: "Barcelona Retro", frente: "barcelona retro adelante.jpg", atras: "barcelona retro atras.jpg", tallas: ["S",] },
-            { id: "boca_juniors", nombre: "Boca Juniors", frente: "boca juniors adelante.jpg", atras: "boca juniors atras.jpg", tallas: [ "M",] },
-            { id: "brasil_amarilla_2022", nombre: "Brasil Amarilla 2022", frente: "brasil amarilla 2022 adelante.jpg", atras: "brasil amarilla  2022 atras.jpg", tallas: ["S",] },
-            { id: "brasil_amarilla", nombre: "Brasil Amarilla", frente: "brasil amarilla adelante.jpg", atras: "brasil amarilla atras.jpg", tallas: ["S", "M", "L", "XL?"] },
-            { id: "brasil_azul", nombre: "Brasil Azul", frente: "brasil azul adelante.jpg", atras: "brasil azul atras.jpg", tallas: ["M",] },
-            { id: "brasil_dorada", nombre: "Brasil Dorada", frente: "brasil dorada adelante.jpg", atras: "brasil dorada atras.jpg", tallas: [ "L",] },
+            { id: "barcelona_retro", nombre: "Barcelona Retro", frente: "barcelona retro adelante.jpg", atras: "barcelona retro atras.jpg", tallas: ["S"] },
+            { id: "boca_juniors", nombre: "Boca Juniors", frente: "boca juniors adelante.jpg", atras: "boca juniors atras.jpg", tallas: ["M"] },
+            { id: "brasil_amarilla_2022", nombre: "Brasil Amarilla 2022", frente: "brasil amarilla 2022 adelante.jpg", atras: "brasil amarilla  2022 atras.jpg", tallas: ["S"] },
+            { id: "brasil_amarilla", nombre: "Brasil Amarilla", frente: "brasil amarilla adelante.jpg", atras: "brasil amarilla atras.jpg", tallas: ["S", "M", "L", "XL"] },
+            { id: "brasil_azul", nombre: "Brasil Azul", frente: "brasil azul adelante.jpg", atras: "brasil azul atras.jpg", tallas: ["M"] },
+            { id: "brasil_dorada", nombre: "Brasil Dorada", frente: "brasil dorada adelante.jpg", atras: "brasil dorada atras.jpg", tallas: ["L"] },
             { id: "brasil_especial", nombre: "Brasil Especial", frente: "brasil especial adelante.jpg", atras: "brasil especial atras.jpg", encargo: true, tallas: ["S", "M", "L", "XL"] },
-            { id: "brasil_morada", nombre: "Brasil Morada", frente: "brasil morada adelante.jpg", atras: "brasil morada atras.jpg", tallas: ["L",] },
-            { id: "brasil_negra_dorado", nombre: "Brasil Negra y Dorado", frente: "brasil negra y dorado adelante.jpg", atras: "brasil negra y dorado atras.jpg", tallas: ["M",] },
-            { id: "brasil_retro", nombre: "Brasil Retro", frente: "brasil retro adelante.jpg", atras: "brasil retro atras.jpg", tallas: [ "M",] },
+            { id: "brasil_morada", nombre: "Brasil Morada", frente: "brasil morada adelante.jpg", atras: "brasil morada atras.jpg", tallas: ["L"] },
+            { id: "brasil_negra_dorado", nombre: "Brasil Negra y Dorado", frente: "brasil negra y dorado adelante.jpg", atras: "brasil negra y dorado atras.jpg", tallas: ["M"] },
+            { id: "brasil_retro", nombre: "Brasil Retro", frente: "brasil retro adelante.jpg", atras: "brasil retro atras.jpg", tallas: ["M"] },
             { id: "brasil_rosada", nombre: "Brasil Rosada", frente: "brasil rosada adelante.jpg", atras: "brasil rosada atras .jpg", encargo: true, tallas: ["S", "M", "L", "XL"] },
-            { id: "canada", nombre: "Canadá", frente: "canada adelante.jpg", atras: "canada atras.jpg", tallas: [ "L",] },
-            { id: "colombia", nombre: "Colombia", frente: "colombia adelante.jpg", atras: "colombia atras.jpg", tallas: ["M",] },
+            { id: "canada", nombre: "Canadá", frente: "canada adelante.jpg", atras: "canada atras.jpg", tallas: ["L"] },
+            { id: "colombia", nombre: "Colombia", frente: "colombia adelante.jpg", atras: "colombia atras.jpg", tallas: ["M"] },
             { id: "costa_rica_especial", nombre: "Costa Rica Especial", frente: "costa rica especial solo por encargo.jpg", atras: "costa rica especial solo por encargo.jpg", encargo: true, tallas: ["S", "M", "L", "XL"] },
             { id: "costa_rica_roja", nombre: "Costa Rica Roja", frente: "costa rica roja solo por encargo.jpg", atras: "costa rica roja solo por encargo.jpg", encargo: true, tallas: ["S", "M", "L", "XL"] },
-            { id: "espana_blanca", nombre: "España Blanca", frente: "españa blanca adelante.jpg", atras: "españa blanca atras.jpg", tallas: ["S", "M", "L", "XL?"] },
-            { id: "espana_roja", nombre: "España Roja", frente: "españa roja adelante.jpg", atras: "españa roja atras.jpg", tallas: ["S",] },
-            { id: "espana_roja_azul", nombre: "España Roja y Azul", frente: "españa roja y azul adelante.jpg", atras: "españa roja y azul atras.jpg", tallas: ["S", "M",] },
-            { id: "eeuu_negra", nombre: "Estados Unidos Negra", frente: "Estados Unidos negra adelante.jpg", atras: "Estados unidos negra atras.jpg", tallas: [ "L",] },
-            { id: "eeuu_roja", nombre: "Estados Unidos Roja", frente: "estados unidos roja adelante.jpg", atras: "estados unidos roja atras.jpg", tallas: ["M",] },
-            { id: "francia_azul", nombre: "Francia Azul", frente: "Francia Azul Adelante.jpg", atras: "Francia azul atrás.jpg", tallas: [ "M", "L", "XL"] },
-            { id: "francia_verde", nombre: "Francia Verde", frente: "francia verde adelante.jpg", atras: "francia verde atras.jpg", tallas: ["S", "M",] },
-            { id: "inglaterra_especial", nombre: "Inglaterra Especial", frente: "inglaterra especial adelante.jpg", atras: "inglaterra especial atras.jpg", tallas: ["M",] },
-            { id: "inglaterra_roja", nombre: "Inglaterra Roja", frente: "inglaterra roja adelante.jpg", atras: "inglaterra roja atras.jpg", tallas: ["L",] },
-            { id: "italia", nombre: "Italia", frente: "italia adelante.jpg", atras: "italia atras.jpg", tallas: ["L",] },
-            { id: "jamaica", nombre: "Jamaica", frente: "jamaica adelante.jpg", atras: "Jamaica atras.jpg", tallas: ["M",] },
-            { id: "japon_2026", nombre: "Japón 2026", frente: "japon 2026 adelante.jpg", atras: "japon 2026 atras.jpg", tallas: ["S",] },
-            { id: "japon_anime_blanca", nombre: "Japón Anime blanca", frente: "japon anime blanca.jpg", atras: "japon anime blanca.jpg", tallas: [ "L",] },
+            { id: "espana_blanca", nombre: "España Blanca", frente: "españa blanca adelante.jpg", atras: "españa blanca atras.jpg", tallas: ["S", "M", "L", "XL"] },
+            { id: "espana_roja", nombre: "España Roja", frente: "españa roja adelante.jpg", atras: "españa roja atras.jpg", tallas: ["S"] },
+            { id: "espana_roja_azul", nombre: "España Roja y Azul", frente: "españa roja y azul adelante.jpg", atras: "españa roja y azul atras.jpg", tallas: ["S", "M"] },
+            { id: "eeuu_negra", nombre: "Estados Unidos Negra", frente: "Estados Unidos negra adelante.jpg", atras: "Estados unidos negra atras.jpg", tallas: ["L"] },
+            { id: "eeuu_roja", nombre: "Estados Unidos Roja", frente: "estados unidos roja adelante.jpg", atras: "estados unidos roja atras.jpg", tallas: ["M"] },
+            { id: "francia_azul", nombre: "Francia Azul", frente: "Francia Azul Adelante.jpg", atras: "Francia azul atrás.jpg", tallas: ["M", "L", "XL"] },
+            { id: "francia_verde", nombre: "Francia Verde", frente: "francia verde adelante.jpg", atras: "francia verde atras.jpg", tallas: ["S", "M"] },
+            { id: "inglaterra_especial", nombre: "Inglaterra Especial", frente: "inglaterra especial adelante.jpg", atras: "inglaterra especial atras.jpg", tallas: ["M"] },
+            { id: "inglaterra_roja", nombre: "Inglaterra Roja", frente: "inglaterra roja adelante.jpg", atras: "inglaterra roja atras.jpg", tallas: ["L"] },
+            { id: "italia", nombre: "Italia", frente: "italia adelante.jpg", atras: "italia atras.jpg", tallas: ["L"] },
+            { id: "jamaica", nombre: "Jamaica", frente: "jamaica adelante.jpg", atras: "Jamaica atras.jpg", tallas: ["M"] },
+            { id: "japon_2026", nombre: "Japón 2026", frente: "japon 2026 adelante.jpg", atras: "japon 2026 atras.jpg", tallas: ["S"] },
+            { id: "japon_anime_blanca", nombre: "Japón Anime blanca", frente: "japon anime blanca.jpg", atras: "japon anime blanca.jpg", tallas: ["L"] },
             { id: "japon_anime_goku", nombre: "Japón Anime Goku", frente: "Japon anime goku.jpg", atras: "Japon anime goku.jpg", encargo: true, tallas: ["S", "M", "L", "XL"] },
-            { id: "japon_anime", nombre: "Japón Anime", frente: "japon anime adelante.jpg", atras: "japon anime atras.jpg", tallas: ["L?",] },
-        { id: "juventus", nombre: "Juventus", frente: "juventus adelante.jpg", atras: "juventus atras.jpg", tallas: ["S", "M", "L", "XL?"] },
-            { id: "manchester_united_negra", nombre: "Manchester United Negra", frente: "manchester united negra adelante.jpg", atras: "manchester united negra atras.jpg", tallas: ["S", "M", "L", "XL?"] },
-            { id: "manchester_united_local", nombre: "Manchester United Local", frente: "manchester unites adelante.jpg", atras: "manchester united atras.jpg", tallas: ["S", "M", "L", "XL?"] },
-            { id: "marruecos_especial", nombre: "Marruecos Edición Especial", frente: "marruecos edicion especial adelante.jpg", atras: "marruecos edicion especial atras.jpg", tallas: ["S",] },
-            { id: "mexico", nombre: "México", frente: "mexico adelante.jpg", atras: "mexico atras.jpg", tallas: ["M",] },
-            { id: "nigeria", nombre: "Nigeria", frente: "nigeria adelante.jpg", atras: "nigeria atras.jpg", tallas: [ "M",] },
-            { id: "noruega", nombre: "Noruega", frente: "noruega adelante.jpg", atras: "noruega atras.jpg", tallas: [ "M?",] },
-            { id: "paises_bajos", nombre: "Países Bajos", frente: "paises bajos adelante.jpg", atras: "paises bajos atras.jpg", tallas: ["L",] },
-            { id: "portugal_negra", nombre: "Portugal Negra", frente: "Portugal Negra Adelante.jpg", atras: "Portugal Negra Atras.jpg", tallas: ["S", "M", "L", "XL?"] },
-            { id: "portugal_roja", nombre: "Portugal Roja", frente: "portugal roja adelante.jpg", atras: "portugal roja atras.jpg", tallas: ["S", "M", "L?",] },
-            { id: "portugal_verde", nombre: "Portugal Verde", frente: "Portugal Verde adelante.jpg", atras: "Portugal verde atras.jpg", tallas: ["S", "M", "L", "XL?"] },
-            { id: "psg_especial", nombre: "PSG Especial", frente: "psg especial adelante.jpg", atras: "psg especial atras.jpg", tallas: ["M",] },
-            { id: "psg_morada", nombre: "PSG Morada", frente: "psg morada adelante.jpg", atras: "psg morada atras.jpg", tallas: ["L",] },
-            { id: "psg_rosada", nombre: "PSG Rosada", frente: "psg rosada adelante.jpg", atras: "psg rosada atras.jpg", tallas: ["L",] },
-            { id: "real_madrid_blanca", nombre: "Real Madrid Blanca", frente: "real madrid blanca adelante.jpg", atras: "real madrid blanca atras.jpg", tallas: ["M",] },
-            { id: "real_madrid_morada", nombre: "Real Madrid Morada", frente: "real madrid morada adelante.jpg", atras: "real madrid morada atras.jpg", tallas: ["S",] },
-            { id: "santos_brasil", nombre: "Santos de Brasil Blanca", frente: "santos de brasil blanca adelante.jpg", atras: "santos de brasil blanca atras.jpg", tallas: ["S", "M",] },
-            { id: "uruguay", nombre: "Uruguay", frente: "uruguay adelante.jpg", atras: "uruguay atras.jpg", tallas: ["2XL",] },
-            { id: "real_madrid_azul", nombre: "Real Madrid Azul", frente: "real madrid azul adelante.jpg", atras: "real madrid azul atras.jpg", tallas: ["S",] },
-            { id: "manchester_united_galaxy", nombre: "Manchester United Galaxy", frente: "manchester united galaxy adelante.jpg", atras: "manchester united galaxy atras.jpg", tallas: ["S",] },
-             { id: "real keylor", nombre: "Real Madrid Navas", frente: "real keylor adelante.jpg", atras: "real keylor atras.jpg", tallas: ["M",] },                                                                                                                                                                       
-             { id: "portugal niños", nombre: "Portugal Negra Niños", frente: "portugal negra niños adelante.jpg", atras: "portugal negra niños atras.jpg", tallas: ["28: 12-13 años      26: 11-12 años",] },          
-             { id: "santos niños", nombre: "Santos De Brasil Blanca Niños", frente: "santos brasil niños adelante.jpg", atras: "santos brasil niños atras.jpg", tallas: ["28: 12-13 años",] },
-            ];  
+            { id: "japon_anime", nombre: "Japón Anime", frente: "japon anime adelante.jpg", atras: "japon anime atras.jpg", tallas: ["L"] },
+            { id: "juventus", nombre: "Juventus", frente: "juventus adelante.jpg", atras: "juventus atras.jpg", tallas: ["S", "M", "L", "XL"] },
+            { id: "manchester_united_negra", nombre: "Manchester United Negra", frente: "manchester united negra adelante.jpg", atras: "manchester united negra atras.jpg", tallas: ["S", "M", "L", "XL"] },
+            { id: "manchester_united_local", nombre: "Manchester United Local", frente: "manchester unites adelante.jpg", atras: "manchester united atras.jpg", tallas: ["S", "M", "L", "XL"] },
+            { id: "marruecos_especial", nombre: "Marruecos Edición Especial", frente: "marruecos edicion especial adelante.jpg", atras: "marruecos edicion especial atras.jpg", tallas: ["S"] },
+            { id: "mexico", nombre: "México", frente: "mexico adelante.jpg", atras: "mexico atras.jpg", tallas: ["M"] },
+            { id: "nigeria", nombre: "Nigeria", frente: "nigeria adelante.jpg", atras: "nigeria atras.jpg", tallas: ["M"] },
+            { id: "noruega", nombre: "Noruega", frente: "noruega adelante.jpg", atras: "noruega atras.jpg", tallas: ["M"] },
+            { id: "paises_bajos", nombre: "Países Bajos", frente: "paises bajos adelante.jpg", atras: "paises bajos atras.jpg", tallas: ["L"] },
+            { id: "portugal_negra", nombre: "Portugal Negra", frente: "Portugal Negra Adelante.jpg", atras: "Portugal Negra Atras.jpg", tallas: ["S", "M", "L", "XL"] },
+            { id: "portugal_roja", nombre: "Portugal Roja", frente: "portugal roja adelante.jpg", atras: "portugal roja atras.jpg", tallas: ["S", "M", "L"] },
+            { id: "portugal_verde", nombre: "Portugal Verde", frente: "Portugal Verde adelante.jpg", atras: "Portugal verde atras.jpg", tallas: ["S", "M", "L", "XL"] },
+            { id: "psg_especial", nombre: "PSG Especial", frente: "psg especial adelante.jpg", atras: "psg especial atras.jpg", tallas: ["M"] },
+            { id: "psg_morada", nombre: "PSG Morada", frente: "psg morada adelante.jpg", atras: "psg morada atras.jpg", tallas: ["L"] },
+            { id: "psg_rosada", nombre: "PSG Rosada", frente: "psg rosada adelante.jpg", atras: "psg rosada atras.jpg", tallas: ["L"] },
+            { id: "real_madrid_blanca", nombre: "Real Madrid Blanca", frente: "real madrid blanca adelante.jpg", atras: "real madrid blanca atras.jpg", tallas: ["M"] },
+            { id: "real_madrid_morada", nombre: "Real Madrid Morada", frente: "real madrid morada adelante.jpg", atras: "real madrid morada atras.jpg", tallas: ["S"] },
+            { id: "santos_brasil", nombre: "Santos de Brasil Blanca", frente: "santos de brasil blanca adelante.jpg", atras: "santos de brasil blanca atras.jpg", tallas: ["S", "M"] },
+            { id: "uruguay", nombre: "Uruguay", frente: "uruguay adelante.jpg", atras: "uruguay atras.jpg", tallas: ["2XL"] },
+            { id: "real_madrid_azul", nombre: "Real Madrid Azul", frente: "real madrid azul adelante.jpg", atras: "real madrid azul atras.jpg", tallas: ["S"] },
+            { id: "manchester_united_galaxy", nombre: "Manchester United Galaxy", frente: "manchester united galaxy adelante.jpg", atras: "manchester united galaxy atras.jpg", tallas: ["S"] },
+            { id: "real_keylor", nombre: "Real Madrid Navas", frente: "real keylor adelante.jpg", atras: "real keylor atras.jpg", tallas: ["M"] },                                                                                                                                                                       
+            { id: "portugal_ninos", nombre: "Portugal Negra Niños", frente: "portugal negra niños adelante.jpg", atras: "portugal negra niños atras.jpg", tallas: ["Talla 28 (12-13 años)", "Talla 26 (11-12 años)"] },          
+            { id: "santos_ninos", nombre: "Santos De Brasil Blanca Niños", frente: "santos brasil niños adelante.jpg", atras: "santos brasil niños atras.jpg", tallas: ["Talla 28 (12-13 años)"] }
+        ];  
                             
         // RENDERIZADO DINÁMICO EN PANTALLA
         const catalogo = document.getElementById('catalogo');
@@ -297,9 +320,8 @@
             
             const badge = item.encargo ? `<div class="badge-encargo">Bajo Encargo</div>` : '';
             
-            // Genera las tallas dinámicamente si el producto las tiene configuradas
             const htmlTallas = item.tallas && item.tallas.length > 0 
-                ? `<div class="tallas">Tallas: ${item.tallas.map(t => `<span>${t}</span>`).join(' ')}</div>` 
+                ? `<div class="tallas">Tallas: ${item.tallas.map(t => `<span>${t}</span>`).join('')}</div>` 
                 : '';
 
             card.innerHTML = `
@@ -312,26 +334,28 @@
                 <div class="info-wrapper">
                     <h2 class="titulo-producto">${item.nombre}</h2>
                     ${htmlTallas}
-                    <a href="https://wa.me/50663981769?text=Hola!%20Me%20interesa%20la%20camiseta%20de%20${encodeURIComponent(item.nombre)}" target="_blank" class="btn-ordenar">Pedir ya</a>
+                    <a href="https://wa.me/50663981769?text=Hola!%20Me%20interesa%20la%20camiseta%20de%20${encodeURIComponent(item.nombre)}" target="_blank" rel="noopener" class="btn-ordenar">Pedir ya</a>
                 </div>
             `;
             catalogo.appendChild(card);
         });
 
-        // INICIALIZACIÓN DE FANCYBOX (VISOR DE FOTOS)
-        Fancybox.bind("[data-fancybox]", {
-            Images: {
-                Panzoom: {
-                    maxScale: 3.5
+        // INICIALIZACIÓN DE FANCYBOX (VISOR DE FOTOS) CON SEGURIDAD
+        if (typeof Fancybox !== "undefined") {
+            Fancybox.bind("[data-fancybox]", {
+                Images: {
+                    Panzoom: {
+                        maxScale: 3.5
+                    }
+                },
+                Toolbar: {
+                    display: {
+                        left: ["infobar"],
+                        right: ["zoom", "close"]
+                    }
                 }
-            },
-            Toolbar: {
-                display: {
-                    left: ["infobar"],
-                    right: ["zoom", "close"]
-                }
-            }
-        });
+            });
+        }
     </script>
 </body>
 </html>
