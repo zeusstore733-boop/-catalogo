@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="format-detection" content="telephone=no">
     <meta name="theme-color" content="#0a0a0a">
@@ -10,17 +10,18 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Tu Camiseta CR — Catálogo Oficial</title>
 
-    <!-- Fancybox 5 CSS (Visor fluido de imágenes) -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css"/>
+    <!-- Precarga optimizada para redes lentas (3G/H+) -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+
+    <!-- Fancybox CSS con respaldo por si la red bloquea el CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" onerror="this.remove()"/>
 
     <style>
-        /* --- VARIABLES DE COLOR (NEGRO & ROJO) --- */
         :root {
             --bg-principal: #0a0a0a;
             --bg-card: #141414;
-            --bg-card-hover: #1f1f1f;
             --rojo-primario: #dc2626;
-            --rojo-hover: #ef4444; 
             --texto-blanco: #ffffff;
             --texto-gris: #a1a1aa;
             --borde-color: #27272a;
@@ -30,7 +31,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
 
@@ -40,104 +41,87 @@
             background-color: var(--bg-principal);
             color: var(--texto-blanco);
             -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
         }
 
         body {
-            padding: 20px;
-            line-height: 1.5;
-            -webkit-overflow-scrolling: touch;
+            padding: 16px;
+            padding-top: max(16px, env(safe-area-inset-top));
+            padding-bottom: max(16px, env(safe-area-inset-bottom));
+            line-height: 1.4;
         }
 
-        /* --- HEADER Y LOGO --- */
         header {
             text-align: center;
-            margin-bottom: 35px;
-            padding: 25px 20px;
+            margin-bottom: 25px;
+            padding: 20px 15px;
             background: radial-gradient(circle at center, #1f0505 0%, #0a0a0a 100%);
-            border-radius: 16px;
+            border-radius: 14px;
             border: 1px solid rgba(220, 38, 38, 0.3);
-            box-shadow: 0 4px 25px rgba(220, 38, 38, 0.15);
         }
 
         .logo-container {
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
         .logo-img {
-            max-width: 180px;
+            max-width: 160px;
             width: 100%;
             height: auto;
             object-fit: contain;
-            filter: drop-shadow(0 4px 12px rgba(220, 38, 38, 0.4));
         }
 
         header p {
             color: var(--texto-gris);
-            font-size: 1rem;
+            font-size: 0.9rem;
             text-transform: uppercase;
-            letter-spacing: 1.2px;
+            letter-spacing: 1px;
             font-weight: 500;
         }
 
-        /* --- CONTENEDOR PRINCIPAL --- */
         .catalogo-container {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 20px;
             max-width: 1400px;
             margin: 0 auto;
         }
 
-        /* --- TARJETA DE PRODUCTO --- */
         .producto-card {
             background-color: var(--bg-card);
-            border-radius: 14px;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
-            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
             display: flex;
             flex-direction: column;
             border: 1px solid var(--borde-color);
             position: relative;
-            will-change: transform;
-        }
-
-        .producto-card:hover {
-            transform: translateY(-6px);
-            border-color: var(--rojo-primario);
-            box-shadow: 0 10px 25px rgba(220, 38, 38, 0.25);
         }
 
         .badge-encargo {
             position: absolute;
-            top: 12px;
-            left: 12px;
+            top: 10px;
+            left: 10px;
             background: linear-gradient(135deg, var(--rojo-primario) 0%, #991b1b 100%);
             color: #fff;
-            padding: 5px 10px;
-            font-size: 0.75rem;
+            padding: 4px 8px;
+            font-size: 0.7rem;
             font-weight: 700;
-            border-radius: 6px;
+            border-radius: 4px;
             text-transform: uppercase;
             z-index: 10;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.5);
-            letter-spacing: 0.8px;
             pointer-events: none;
         }
 
-        /* --- CONTENEDOR DE IMÁGENES Y TRANSICIONES --- */
         .imagen-wrapper {
             width: 100%;
-            height: 380px;
+            height: 340px;
             position: relative;
             overflow: hidden;
             background-color: #050505;
             cursor: pointer;
-            padding: 10px;
+            touch-action: manipulation;
         }
 
         .imagen-wrapper img {
@@ -147,15 +131,13 @@
             position: absolute;
             top: 0;
             left: 0;
-            transition: opacity 0.3s ease-in-out;
-            will-change: opacity;
+            transition: opacity 0.25s ease-in-out;
         }
 
         .imagen-wrapper img.atras {
             opacity: 0;
         }
 
-        /* Cambia a la imagen trasera solo al pasar el mouse en computadoras con puntero fino */
         @media (hover: hover) and (pointer: fine) {
             .producto-card:hover .imagen-wrapper img.adelante {
                 opacity: 0;
@@ -165,70 +147,58 @@
             }
         }
 
-        /* --- INFORMACIÓN DE LA CAMISETA --- */
         .info-wrapper {
-            padding: 18px;
+            padding: 15px;
             display: flex;
             flex-direction: column;
             flex-grow: 1;
         }
 
         .titulo-producto {
-            font-size: 1.15rem;
-            margin-bottom: 8px;
+            font-size: 1.1rem;
+            margin-bottom: 6px;
             color: var(--texto-blanco);
             font-weight: 600;
-            text-transform: capitalize;
         }
 
         .tallas {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: var(--texto-gris);
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             display: flex;
             flex-wrap: wrap;
-            align-items: center;
-            gap: 4px;
+            gap: 5px;
         }
 
         .tallas span {
             background-color: #27272a;
             color: var(--texto-blanco);
-            padding: 3px 8px;
+            padding: 2px 6px;
             border-radius: 4px;
             font-weight: 600;
             border: 1px solid #3f3f46;
-            font-size: 0.8rem;
         }
 
         .btn-ordenar {
             background: linear-gradient(135deg, var(--rojo-primario) 0%, #b91c1c 100%);
             color: white;
             text-decoration: none;
-            padding: 12px 16px;
-            border-radius: 8px;
+            padding: 10px;
+            border-radius: 6px;
             font-weight: 700;
-            font-size: 0.9rem;
-            transition: background 0.2s, transform 0.2s;
-            box-shadow: 0 4px 10px rgba(220, 38, 38, 0.3);
-            border: none;
+            font-size: 0.85rem;
             text-align: center;
             margin-top: auto;
             display: block;
             width: 100%;
-        }
-
-        .btn-ordenar:active {
-            transform: scale(0.98);
+            touch-action: manipulation;
         }
 
         @media (max-width: 480px) {
-            body { padding: 12px; }
-            header { padding: 18px 10px; margin-bottom: 20px; }
-            .logo-img { max-width: 140px; }
-            .catalogo-container { grid-template-columns: 1fr; gap: 16px; }
-            .imagen-wrapper { height: 350px; }
-            header p { font-size: 0.85rem; }
+            body { padding: 10px; }
+            header { padding: 15px 10px; margin-bottom: 15px; }
+            .catalogo-container { grid-template-columns: 1fr; gap: 15px; }
+            .imagen-wrapper { height: 320px; }
         }
     </style>
 </head>
@@ -238,16 +208,15 @@
         <div class="logo-container">
             <img src="tucamisetacr logo.png" alt="Tu Camiseta CR Logo" class="logo-img" onerror="this.style.display='none'">
         </div>
-        <p>Catálogo — Presiona una camisa para ver frente y atrás</p>
+        <p>Catálogo — Toca una camisa para verla</p>
     </header>
 
     <main class="catalogo-container" id="catalogo"></main>
 
-    <!-- Fancybox 5 JS (Manejo ultra rápido de Zoom y Pantalla Completa) -->
-    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    <!-- Fancybox JS con carga asíncrona segura para redes lentas -->
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js" crossorigin="anonymous" async></script>
 
     <script>
-        // LISTADO OFICIAL DE PRODUCTOS Y SUS FOTOS
         const camisetas = [
             { id: "ac_milan", nombre: "AC Milan", frente: "ac milan adelante.jpg", atras: "ac milan atras.jpg", encargo: true, tallas: ["S", "M", "L", "XL"] },
             { id: "alemania_azul", nombre: "Alemania Azul", frente: "alemania azul adelante.jpg", atras: "alemania azul atras.jpg", tallas: ["L"] },
@@ -303,59 +272,63 @@
             { id: "real_madrid_blanca", nombre: "Real Madrid Blanca", frente: "real madrid blanca adelante.jpg", atras: "real madrid blanca atras.jpg", tallas: ["M"] },
             { id: "real_madrid_morada", nombre: "Real Madrid Morada", frente: "real madrid morada adelante.jpg", atras: "real madrid morada atras.jpg", tallas: ["S"] },
             { id: "santos_brasil", nombre: "Santos de Brasil Blanca", frente: "santos de brasil blanca adelante.jpg", atras: "santos de brasil blanca atras.jpg", tallas: ["S", "M"] },
-            { id: "uruguay", nombre: "Uruguay", frente: "uruguay adelante.jpg", atras: "uruguay atras.jpg", tallas: ["2XL"] },
+            { id: "uruguay", nombre: "Uruguay", frente: "uruguay adelante.jpg", atras: "uruguay adelante.jpg", tallas: ["2XL"] },
             { id: "real_madrid_azul", nombre: "Real Madrid Azul", frente: "real madrid azul adelante.jpg", atras: "real madrid azul atras.jpg", tallas: ["S"] },
             { id: "manchester_united_galaxy", nombre: "Manchester United Galaxy", frente: "manchester united galaxy adelante.jpg", atras: "manchester united galaxy atras.jpg", tallas: ["S"] },
             { id: "real_keylor", nombre: "Real Madrid Navas", frente: "real keylor adelante.jpg", atras: "real keylor atras.jpg", tallas: ["M"] },                                                                                                                                                                       
             { id: "portugal_ninos", nombre: "Portugal Negra Niños", frente: "portugal negra niños adelante.jpg", atras: "portugal negra niños atras.jpg", tallas: ["Talla 28 (12-13 años)", "Talla 26 (11-12 años)"] },          
             { id: "santos_ninos", nombre: "Santos De Brasil Blanca Niños", frente: "santos brasil niños adelante.jpg", atras: "santos brasil niños atras.jpg", tallas: ["Talla 28 (12-13 años)"] }
-        ];  
-                            
-        // RENDERIZADO DINÁMICO EN PANTALLA
+        ];
+
         const catalogo = document.getElementById('catalogo');
-        
+        const fragment = document.createDocumentFragment();
+
         camisetas.forEach(item => {
             const card = document.createElement('div');
             card.className = 'producto-card';
             
             const badge = item.encargo ? `<div class="badge-encargo">Bajo Encargo</div>` : '';
-            
             const htmlTallas = item.tallas && item.tallas.length > 0 
                 ? `<div class="tallas">Tallas: ${item.tallas.map(t => `<span>${t}</span>`).join('')}</div>` 
                 : '';
 
             card.innerHTML = `
                 ${badge}
-                <div class="imagen-wrapper" data-fancybox="${item.id}" data-src="${item.frente}">
-                    <img src="${item.frente}" alt="${item.nombre} Frente" class="adelante" loading="lazy">
-                    <img src="${item.atras}" alt="${item.nombre} Atras" class="atras" loading="lazy">
-                    <a href="${item.atras}" data-fancybox="${item.id}" style="display:none;"></a>
+                <div class="imagen-wrapper" data-fancybox="${item.id}" data-src="${encodeURI(item.frente)}">
+                    <img src="${encodeURI(item.frente)}" alt="${item.nombre} Frente" class="adelante" loading="lazy">
+                    <img src="${encodeURI(item.atras)}" alt="${item.nombre} Atras" class="atras" loading="lazy">
+                    <a href="${encodeURI(item.atras)}" data-fancybox="${item.id}" style="display:none;"></a>
                 </div>
                 <div class="info-wrapper">
                     <h2 class="titulo-producto">${item.nombre}</h2>
                     ${htmlTallas}
-                    <a href="https://wa.me/50663981769?text=Hola!%20Me%20interesa%20la%20camiseta%20de%20${encodeURIComponent(item.nombre)}" target="_blank" rel="noopener" class="btn-ordenar">Pedir ya</a>
+                    <a href="https://wa.me/50663981769?text=Hola!%20Me%20interesa%20la%20camiseta%20de%20${encodeURIComponent(item.nombre)}" target="_blank" rel="noopener noreferrer" class="btn-ordenar">Pedir ya</a>
                 </div>
             `;
-            catalogo.appendChild(card);
+            fragment.appendChild(card);
         });
 
-        // INICIALIZACIÓN DE FANCYBOX (VISOR DE FOTOS) CON SEGURIDAD
-        if (typeof Fancybox !== "undefined") {
-            Fancybox.bind("[data-fancybox]", {
-                Images: {
-                    Panzoom: {
-                        maxScale: 3.5
-                    }
-                },
-                Toolbar: {
-                    display: {
-                        left: ["infobar"],
-                        right: ["zoom", "close"]
-                    }
+        catalogo.appendChild(fragment);
+
+        // Control de errores de red para Fancybox en conexiones 3G/H
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                if (typeof Fancybox !== "undefined") {
+                    Fancybox.bind("[data-fancybox]", {
+                        Images: { Panzoom: { maxScale: 3 } },
+                        Toolbar: { display: { left: ["infobar"], right: ["close"] } }
+                    });
+                } else {
+                    // Fallback nativo: Si la red bloquea el CDN, abre la imagen directamente en pestaña nueva al tocarla
+                    document.querySelectorAll('.imagen-wrapper').forEach(wrapper => {
+                        wrapper.addEventListener('click', () => {
+                            const src = wrapper.getAttribute('data-src');
+                            if (src) window.open(src, '_blank');
+                        });
+                    });
                 }
-            });
-        }
+            }, 300);
+        });
     </script>
 </body>
 </html>
